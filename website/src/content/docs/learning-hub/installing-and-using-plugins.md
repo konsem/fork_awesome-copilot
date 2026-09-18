@@ -3,7 +3,7 @@ title: 'Installing and Using Plugins'
 description: 'Learn how to find, install, and manage plugins that extend GitHub Copilot CLI with reusable agents, skills, hooks, and integrations.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-01
+lastUpdated: 2026-09-18
 relatedArticles:
   - ./building-custom-agents.md
   - ./creating-effective-skills.md
@@ -254,6 +254,35 @@ This opens an interactive list where each installed plugin and its components ar
 > **Note**: Enabling and disabling hooks and LSP servers individually is temporarily unavailable following the `/plugins` removal — those toggles previously lived only in the retired dashboard.
 
 > **Dashboard available to everyone (v1.0.81+)**: The plugins dashboard (`/plugin`, `/mcp`, and `/skills`) is now on for all users by default. If you need to opt out, set `PLUGINS_DASHBOARD=false`, which also restores the legacy `copilot plugins` command. This opt-out was later removed in the same release, along with the legacy skills picker it kept alive — `/skills`, bare `/mcp`, and `/mcp show` (with no server name) always open the dashboard now, and `/mcp config` opens the dedicated MCP wizard.
+
+### Kind-Specific CLI Subcommands (v1.0.85+)
+
+The cross-kind `copilot plugins` command family (which used `--kind`, `--scope`, `--mcp`, and `--skill` flags to operate on different component types) has been replaced by dedicated subcommands per component type:
+
+```bash
+# List installed instructions or LSP servers (new)
+copilot instruction list
+copilot lsp list
+
+# Enable or disable any plugin, MCP server, or skill
+copilot plugin enable my-plugin
+copilot plugin disable my-plugin
+copilot mcp enable my-server
+copilot mcp disable my-server
+copilot skill enable my-skill
+copilot skill disable my-skill
+
+# Add a personal skill (replaces "copilot plugins install --skill [--scope project]")
+copilot skill add my-skill --project
+```
+
+Key changes to be aware of if you have scripts or muscle memory built around the old commands:
+
+- `copilot instruction list` and `copilot lsp list` replace `copilot plugins list --kind instruction` and `--kind lsp`.
+- `enable`/`disable` subcommands on `copilot plugin`, `copilot mcp`, and `copilot skill` replace the old `copilot plugins enable/disable --plugin|--mcp|--skill` flags.
+- `copilot skill add [--project]` replaces `copilot plugins install --skill [--scope project]` — the `--scope` spelling is gone entirely.
+- `copilot plugin list` is now an alias of the modern `copilot plugin list` command and reports **only plugins** — it no longer also lists MCP servers, skills, instructions, or LSP servers the way the legacy cross-kind command did.
+- `copilot plugin list --json`, `copilot plugin marketplace list --json`, and `copilot plugin marketplace browse --json` now emit a flat JSON array of plugins instead of the older `{ plugins, errors }` wrapper object — update any scripts that read a `.plugins` property from the output.
 
 ### Loading Plugins from a Local Directory
 
