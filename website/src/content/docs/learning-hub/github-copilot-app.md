@@ -3,7 +3,7 @@ title: 'Getting Started with the GitHub Copilot app'
 description: 'Learn about the GitHub Copilot app, a desktop experience built for agent-native development. Understand its key features and who it''s for.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-02
+lastUpdated: 2026-09-21
 estimatedReadingTime: '8 minutes'
 tags:
   - copilot-app
@@ -49,6 +49,12 @@ The central hub of the Copilot app is the **My Work** view. This dashboard shows
 - **Overall status**: A quick overview of what's in progress, what's done, and what's blocked
 
 Instead of checking GitHub, your CLI, and VS Code for updates, everything is in one place.
+
+**Separate Issues and Pull requests sections** *(v1.1.23+)*: My Work is now split into separate **Issues** and **Pull requests** sections in the sidebar and navigation, and repositories can be browsed as dedicated pages — making it easier to focus on one work item type at a time.
+
+### Session Sandbox
+
+**Local shell sandbox** *(v1.1.23+)*: A new project setting and `/sandbox` command let you run the agent's shell commands in a local sandbox restricted to the session's workspace, restricting filesystem access the same way the [Copilot CLI sandbox](../copilot-configuration-basics/) does. Enable it per project when you want an extra isolation boundary for agent-run commands.
 
 ### Automations
 
