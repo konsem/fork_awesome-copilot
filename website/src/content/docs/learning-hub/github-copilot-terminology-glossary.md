@@ -3,7 +3,7 @@ title: 'GitHub Copilot Terminology Glossary'
 description: 'A quick reference guide defining common GitHub Copilot and platform-specific terms.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-07
+lastUpdated: 2026-10-01
 estimatedReadingTime: '8 minutes'
 tags:
   - glossary
@@ -281,13 +281,27 @@ tools: ['codebase', 'terminalCommand', 'github']
 
 ### Agent Host
 
-A VS Code component (v1.136+) that lets multiple VS Code windows connect to the same agent session. It runs agent harnesses (such as Copilot or Claude) in a dedicated process built on the open **Agent Host Protocol (AHP)**. The agent host's Copilot harness is powered by the [Copilot SDK](https://www.npmjs.com/package/@github/copilot-sdk), which keeps its behavior aligned with the Copilot CLI, the standalone GitHub Copilot app, and other Copilot products.
+A VS Code component (v1.136+) that lets multiple VS Code windows connect to the same agent session, now surfaced through the **Agents window** (the renamed home for sessions, chats, and agent management). It runs agent harnesses (such as Copilot or Claude) in a dedicated process built on the open **Agent Host Protocol (AHP)**. The agent host's Copilot harness is powered by the [Copilot SDK](https://www.npmjs.com/package/@github/copilot-sdk), which keeps its behavior aligned with the Copilot CLI, the standalone GitHub Copilot app, and other Copilot products.
+
+As of v1.140, the Agent Host also supports **multi-folder sessions** (Experimental)—letting different chats in the same session use their own folder or worktree—and lets an agent **delegate tasks to connected remote agent hosts** (Experimental) with built-in tools like `list_agent_hosts` and `create_remote_session`.
 
 **Example**: Starting a session in one VS Code window, then reconnecting to the same live session from a second window without losing state.
 
 **When to use**: When you want a consistent agent session shared across multiple editor windows, or when you want the same underlying agent behavior across VS Code, the CLI, and the Copilot app.
 
-**Related terms**: [Agent](#agent), [Coding Agent](#coding-agent)
+**Related terms**: [Agent](#agent), [Coding Agent](#coding-agent), [Copilot Harness](#copilot-harness)
+
+---
+
+### Copilot Harness
+
+*(v1.140+)* The default agent harness in VS Code's Agent Host, selectable from the harness picker in the chat input. It's powered by the same [Copilot SDK](https://www.npmjs.com/package/@github/copilot-sdk) used by the Copilot CLI and the standalone GitHub Copilot app, so agent behavior and capabilities stay consistent across all three surfaces.
+
+**Example**: Choosing the Copilot harness from the harness picker so a VS Code session behaves the same way a Copilot CLI session would for the same prompt.
+
+**When to use**: When you want VS Code's agent behavior to match the Copilot CLI and Copilot app, rather than relying on VS Code's own built-in chat implementation.
+
+**Related terms**: [Agent Host](#agent-host), [Agent](#agent)
 
 ---
 
