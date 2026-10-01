@@ -3,7 +3,7 @@ title: 'Getting Started with the GitHub Copilot app'
 description: 'Learn about the GitHub Copilot app, a desktop experience built for agent-native development. Understand its key features and who it''s for.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-02
+lastUpdated: 2026-10-01
 estimatedReadingTime: '8 minutes'
 tags:
   - copilot-app
@@ -44,11 +44,11 @@ The key difference from existing Copilot experiences is that the app is purpose-
 The central hub of the Copilot app is the **My Work** view. This dashboard shows:
 
 - **Active sessions**: Each agent working on a task gets its own isolated session
-- **Issues and PRs**: Your inbox of work items from connected repositories
+- **Issues and Pull requests**: Your work items from connected repositories, now split into separate **Issues** and **Pull requests** sections in the sidebar and navigation—each with their own saved views, filters, and layout that persist independently. Old My Work and inbox links still work. You can also browse a repository's issues and PRs as a dedicated page.
 - **Background automations**: Tasks running in the background, like Agent Merge handling your pull requests
 - **Overall status**: A quick overview of what's in progress, what's done, and what's blocked
 
-Instead of checking GitHub, your CLI, and VS Code for updates, everything is in one place.
+Instead of checking GitHub, your CLI, and VS Code for updates, everything is in one place. *(v1.1.24+)* You can also search and reuse your previous prompts across all sessions with `Ctrl+R` (`Cmd+R` on macOS), and retry any agent response with a different model, reasoning effort, or context tier.
 
 ### Automations
 
@@ -107,7 +107,7 @@ Agent Merge also understands **stacked pull requests**: it shows a stack summary
 
 ### Requesting Code Reviews
 
-From the app, you can request a Copilot code review on a pull request—and re-request a review even from reviewers who already responded—without leaving the session. This keeps the review loop inside the same workspace where the change was made.
+From the app, you can request a Copilot code review on a pull request—and re-request a review even from reviewers who already responded—without leaving the session. This keeps the review loop inside the same workspace where the change was made. *(v1.1.24+)* The agent can also reply inside an existing inline pull request review thread without resolving it, so conversations stay attached to the relevant line of code.
 
 ## Who is the Copilot app for?
 

@@ -3,7 +3,7 @@ title: 'Agents and Subagents'
 description: 'Learn how delegated subagents differ from primary agents, when to use them, and how to launch them in VS Code and Copilot CLI.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-02
+lastUpdated: 2026-10-01
 estimatedReadingTime: '9 minutes'
 tags:
   - agents
@@ -199,6 +199,15 @@ If you share agent files across surfaces, document those differences so users kn
 When an agent delegates work to multiple chats, VS Code's **Agents window** now shows those chats as children of their parent session in the sessions list, so you can see which chats belong together instead of managing a flat list of unrelated sessions. Each chat row shows its own title, status, and pending approvals. A delegated request also includes a source link (for example **Sent by another session**) so you can jump straight back to whichever session or chat initiated it.
 
 This pairs with **improved workspace resolution**: agents can resolve a workspace by project name (for example, "run this in the vscode workspace") in addition to absolute paths, which simplifies prompts that hand off work across multiple repositories.
+
+### Multi-folder sessions and remote delegation (v1.140+, Experimental)
+
+VS Code 1.140 extends delegation further with two experimental capabilities in the Agent Host:
+
+- **Multi-folder sessions**: each chat in a multi-chat session can use its own folder or worktree, so one session can coordinate related work across repositories (for example, implement a feature in one repo and consume it in another) or compare approaches in separate worktrees of the same repo. Enable it per-harness, e.g. `setting(chat.agentHost.copilotAgent.multiRootEnabled)`.
+- **Delegate tasks to remote agent hosts**: an agent can discover connected remote hosts, start a session on one with `create_remote_session`, check its status with `get_remote_session`, and receive results back with `send_remote_message`—without you manually picking a host for each task. This requires `setting(chat.remoteAgentHostsEnabled)` and `setting(chat.remoteSessions.tools.enabled)`.
+
+Both features raise the orchestration limits (sessions, chats, inter-session messages, recursion depth) for coordination-heavy workflows, reducing the chance that complex delegation chains stop before finishing.
 
 ## Common questions
 
