@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-07
+lastUpdated: 2026-10-01
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -447,6 +447,8 @@ These files follow the same format as `config.json` and are loaded after the glo
 
 > **Important (v1.0.36+)**: Custom agents, skills, and commands placed in `~/.claude/` (the Claude Code user directory) are **no longer loaded** by GitHub Copilot CLI. Only `~/.claude/settings.json` is read for configuration. If you previously stored personal agents or skills in `~/.claude/`, move them to the supported locations: `~/.copilot/agents/` for user-level agents, `~/.copilot/skills/` or `~/.agents/skills/` for personal skills, or `.github/agents/` and `.github/skills/` in your repositories for project-level customizations.
 
+> **New (v1.0.89+)**: Copilot CLI now reads Claude Code rule files in `.claude/rules/` and loads them as custom instructions, in addition to `~/.claude/settings.json`. This makes it easier to share a single set of project conventions between Claude Code and Copilot CLI without duplicating instruction files.
+
 ### Model Picker
 
 The model picker opens in a **full-screen view** with inline reasoning effort adjustment. Use the **← / →** arrow keys to change the reasoning effort level (`low`, `medium`, `high`) directly from the picker without leaving the session. The current reasoning effort level is also displayed in the model header (e.g., `claude-sonnet-4.6 (high)`) so you always know which level is active.
@@ -457,7 +459,9 @@ The model picker opens in a **full-screen view** with inline reasoning effort ad
 
 **Auto mode and server-side model routing** (v1.0.43+): When you select **Auto** as your model, the CLI uses server-side model routing for real-time model selection. Instead of locking in a single model at session start, Auto mode evaluates each request and routes it to the most appropriate model dynamically. This means straightforward questions can be handled by a faster model while complex reasoning tasks are automatically escalated — without you needing to switch models manually.
 
-**Model family aliases** (v1.0.64+): Instead of typing a full model name, you can use short family aliases in the model setting: `opus`, `sonnet`, `haiku` (Anthropic), and `gpt`, `gemini` (Google/OpenAI). The CLI resolves the alias to the latest available model in that family. This is especially useful in scripts or configuration files where you want to track the best model in a family without hardcoding a version string. Recent models available include **Claude Opus 5** (v1.0.75+), the latest in Anthropic's Opus family for the most demanding tasks, **Grok 4.5** (v1.0.76+) from xAI, **Gemini 3.7 Flash** (v1.0.81+), and **Claude Fable 5.1** (v1.0.83+). **Grok 4.6** (v1.0.81+) also gains support for the `xhigh` reasoning effort level, one step above `high`, for the most demanding reasoning tasks. The `/model picker` also periodically retires older models no longer worth recommending — a recent cleanup removed several deprecated Claude and Gemini entries (v1.0.83+), so don't be surprised if a model you previously pinned disappears from the list.
+**Model family aliases** (v1.0.64+): Instead of typing a full model name, you can use short family aliases in the model setting: `opus`, `sonnet`, `haiku` (Anthropic), and `gpt`, `gemini` (Google/OpenAI). The CLI resolves the alias to the latest available model in that family. This is especially useful in scripts or configuration files where you want to track the best model in a family without hardcoding a version string. Recent models available include **Claude Opus 5** (v1.0.75+), the latest in Anthropic's Opus family for the most demanding tasks, **Grok 4.5** (v1.0.76+) from xAI, **Gemini 3.7 Flash** (v1.0.81+), **Claude Fable 5.1** (v1.0.83+), **GPT-6 Astra** (v1.0.85+), and **GPT-6 Sol**/**GPT-6 Luna** (v1.0.89+, when available on your plan). **Claude Opus 5.5** (v1.0.89+) and **GPT-6.1 Sol** (v1.0.90+) have since joined the model picker as well. **Grok 4.6** (v1.0.81+) also gains support for the `xhigh` reasoning effort level, one step above `high`, for the most demanding reasoning tasks. The `/model picker` also periodically retires older models no longer worth recommending — a recent cleanup removed several deprecated Claude and Gemini entries (v1.0.83+), so don't be surprised if a model you previously pinned disappears from the list.
+
+**Auto routing tier controls** (v1.0.87+): Organizations can set user and managed startup defaults for the Auto routing tier, including a strict mode that prevents users from overriding the policy and a user-overridable mode for more flexibility. Combined with the Auto mode feedback prompt and suggested-tier feature added in the Copilot app, this gives administrators finer-grained control over how Auto model routing behaves across a team.
 
 **Model fallback lists** *(v1.0.83+)*: Custom agents can set `model` to a list of several models instead of a single name. Copilot tries each one in order until it finds one available to your account — useful when your preferred model is temporarily rate-limited or not enrolled. Pair this with `model-policy: required` to keep the agent restricted to that list even if you try to switch models mid-session. See [Building Custom Agents](../building-custom-agents/) for the frontmatter syntax.
 
@@ -713,11 +717,17 @@ The `/context` command shows a visualization of the current conversation's conte
 /context
 ```
 
-The `/usage` command displays session metrics such as the number of tokens consumed, API calls made, and any quota information for the current session. In v1.0.64+, `/usage` also shows per-model token totals when you have used multiple models in a session:
+The `/usage` command displays session metrics such as the number of tokens consumed, API calls made, and any quota information for the current session. In v1.0.64+, `/usage` also shows per-model token totals when you have used multiple models in a session. This information is also printed automatically at the conclusion of a session, and (v1.0.83+) `/usage` includes a per-model AI Credit consumption breakdown:
 
 ```
 /usage
 ```
+
+**Vim mode** *(v1.0.85+)*: Turn on modal editing in the composer with `/vim`, or set the `editorMode` setting to `vim`. The current mode (normal/insert) is shown while you type, matching familiar Vim keybindings for navigating and editing your prompt text.
+
+**`/config`** *(v1.0.85+)*: Opens a sidebar configuration screen in the CLI — a quicker, more visual alternative to editing `config.json` directly or hunting through `/settings` for a specific option.
+
+**Shell passthrough** *(v1.0.91 and earlier)*: Prepend any input with `!` to execute it directly as a shell command, bypassing the model entirely. This is useful for quick one-off commands (like `!ls` or `!git status`) without involving the agent.
 
 **`/limits predict`** *(v1.0.76+)*: Usage-based billing users can run `/limits predict` to get a suggested AI-credit limit for the current session, based on the credit consumption of similar past sessions. This helps you set a realistic `sessionLimits` value ahead of a large task instead of guessing:
 
@@ -846,6 +856,20 @@ These flags apply only to the current invocation — your persisted sandbox pref
 **`worktreeBaseRef` setting** *(v1.0.79-8+)*: Controls whether `/worktree`, `/worktree new`, and the `--worktree` startup flag create the new worktree from `HEAD` or from the remote default branch. All three now default to `HEAD`; previously `--worktree` defaulted to starting from the remote default branch. Set this in `/settings` if you want worktrees to branch from the remote default instead.
 
 > **Breaking change — sandbox network isolation (v1.0.83+)**: On macOS and Linux, sandboxed commands can no longer reach services running on your own machine, including a server the sandboxed command itself starts on `127.0.0.1`. This means test suites that bind a local port will fail inside the sandbox. Turn on **Allow local network** in `/sandbox` to restore access to localhost. On Linux, sandboxing also now requires `slirp4netns`, `nsenter`, `iptables`, `ip6tables`, `iptables-restore`, and `ip6tables-restore` on `PATH` — install these if sandboxed commands start failing to launch. Additionally, Linux sandboxes now restrict network egress to the configured HTTP(S) proxy when one is set; this proxy mode requires `slirp4netns`, `util-linux` 2.35+, `iptables`, and `/dev/net/tun` access.
+
+**`copilot sandbox ca` commands** *(v1.0.91+)*: When sandboxed network traffic routes through a proxy, the proxy's TLS certificate authority (CA) needs to be trusted inside the sandbox. The new `copilot sandbox ca` subcommand lets you check, create, trust, rotate, and remove that proxy CA trust, including an unattended setup path for Windows. The older `/sandbox ca install` flow is now split into separate `create` and `trust` steps:
+
+```bash
+copilot sandbox ca check     # check current CA trust status
+copilot sandbox ca create    # generate a new proxy CA
+copilot sandbox ca trust     # trust the CA inside the sandbox
+copilot sandbox ca rotate    # rotate an existing CA
+copilot sandbox ca remove    # remove CA trust
+```
+
+**`--mcp-github-auth`** *(v1.0.90+)*: Scopes your GitHub account authentication to only the MCP server origins you explicitly approve, instead of sharing your GitHub auth with every configured MCP server by default. Use this flag when you want tighter control over which MCP servers can act with your GitHub identity.
+
+**Session-scoped read-only directory approvals** *(v1.0.90+)*: Path access prompts now support granting read-only access to a directory for the current session, in addition to the existing full read/write approval choices — useful when an agent only needs to inspect files in a directory you don't want to fully trust.
 
 The `--attachment` flag (available in prompt mode, `-p`) lets you attach files — images or native documents — to the initial prompt in non-interactive mode:
 

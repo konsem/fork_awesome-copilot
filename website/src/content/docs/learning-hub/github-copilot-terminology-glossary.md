@@ -3,7 +3,7 @@ title: 'GitHub Copilot Terminology Glossary'
 description: 'A quick reference guide defining common GitHub Copilot and platform-specific terms.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-07
+lastUpdated: 2026-10-01
 estimatedReadingTime: '8 minutes'
 tags:
   - glossary
@@ -288,6 +288,20 @@ A VS Code component (v1.136+) that lets multiple VS Code windows connect to the 
 **When to use**: When you want a consistent agent session shared across multiple editor windows, or when you want the same underlying agent behavior across VS Code, the CLI, and the Copilot app.
 
 **Related terms**: [Agent](#agent), [Coding Agent](#coding-agent)
+
+---
+
+### Dynamic Workflows
+
+A GitHub Copilot app feature (renamed from **Agent Factories**) for defining reusable, multi-step workflows that spawn and coordinate several agents to complete a larger body of work. A single workflow can research an approach, implement it across multiple files, and validate the result, all without you manually creating and sequencing individual sessions. Existing workflow runs and transcripts carry over unchanged across the rename.
+
+**Example**: A Dynamic Workflow that triages new issues, assigns the clearest ones to an implementation agent, and opens pull requests for each one it completes.
+
+**When to use**: For recurring, multi-stage bodies of work that benefit from several coordinated agents rather than a single session.
+
+**Learn more**: [Getting Started with the GitHub Copilot app](../github-copilot-app/)
+
+**Related terms**: [Agent](#agent), [Subagent](#subagent)
 
 ---
 

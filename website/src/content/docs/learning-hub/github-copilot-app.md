@@ -3,7 +3,7 @@ title: 'Getting Started with the GitHub Copilot app'
 description: 'Learn about the GitHub Copilot app, a desktop experience built for agent-native development. Understand its key features and who it''s for.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-02
+lastUpdated: 2026-10-01
 estimatedReadingTime: '8 minutes'
 tags:
   - copilot-app
@@ -86,11 +86,23 @@ For a hands-on guide to building canvases with `/create-canvas`, see [Working wi
 
 **Customize** *(v1.1.13+)* is a single place in the Copilot app to browse and manage everything that extends your agents: plugins, skills, MCP servers, and canvases. Instead of hunting through separate settings pages, open **Customize** to:
 
-- Browse **Featured** integrations (for example Azure DevOps or Figma) and install them with one click
+- Browse **Featured** integrations (for example Azure DevOps, Figma, or Sentry) and install them with one click
 - See what's already **Installed**, with consistent icons and source labels across plugin, skill, MCP server, canvas, and connector types
 - Create, edit, or remove your own **personal skills** directly in the app, without hand-authoring a `SKILL.md` file
 
 This makes Customize a good starting point if you want to extend the app's capabilities but don't need the full `copilot plugin` CLI workflow described in [Installing and Using Plugins](../installing-and-using-plugins/).
+
+### Dynamic Workflows
+
+**Dynamic Workflows** *(renamed from Agent Factories)* let you define a reusable, multi-step workflow that spawns and coordinates several agents to complete a larger body of work — for example, researching an approach, implementing it, and then validating the result across multiple files or services. Existing workflow runs and transcripts carry over unchanged under the new name.
+
+- Open the Dynamic Workflows view from the sidebar to see a combined overview and list of your workflows, with a breadcrumb when drilling into an individual workflow
+- Pause and resume a running workflow at any point
+- Click a workflow-owned agent to open its full prompt and response history in the side panel
+
+### Child Chats
+
+Chats can now start **child chats** — nested conversations that appear beneath their parent in the sidebar, each with its own transcript, notifications, and plan review. This is useful for branching off a side investigation or a parallel task without losing the context of (or cluttering) the original conversation.
 
 ### Agent Merge
 
