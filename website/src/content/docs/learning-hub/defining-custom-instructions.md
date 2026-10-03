@@ -3,7 +3,7 @@ title: 'Defining Custom Instructions'
 description: 'Learn how to create persistent, context-aware instructions that guide GitHub Copilot automatically across your codebase.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-01
+lastUpdated: 2026-10-03
 estimatedReadingTime: '8 minutes'
 tags:
   - instructions
@@ -47,6 +47,8 @@ Custom instructions are markdown files (`.instructions.md`) that contain:
 - Instructions are lightweight context; agents are specialized personas with tool access
 - Instructions work with any Copilot interaction; agents require explicit selection
 - Use instructions for coding standards; use agents for complex workflows with tooling needs
+
+> **Claude rule file compatibility (v1.0.89+)**: GitHub Copilot CLI now reads rule files in `.claude/rules/` as custom instructions, alongside its native `.github/instructions/` format. This makes it easier to share coding standards across a team that uses both Claude Code and Copilot CLI, without duplicating instruction content for each tool.
 
 ## Creating Your First Custom Instruction
 

@@ -3,7 +3,7 @@ title: 'Agents and Subagents'
 description: 'Learn how delegated subagents differ from primary agents, when to use them, and how to launch them in VS Code and Copilot CLI.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-02
+lastUpdated: 2026-10-03
 estimatedReadingTime: '9 minutes'
 tags:
   - agents
@@ -199,6 +199,17 @@ If you share agent files across surfaces, document those differences so users kn
 When an agent delegates work to multiple chats, VS Code's **Agents window** now shows those chats as children of their parent session in the sessions list, so you can see which chats belong together instead of managing a flat list of unrelated sessions. Each chat row shows its own title, status, and pending approvals. A delegated request also includes a source link (for example **Sent by another session**) so you can jump straight back to whichever session or chat initiated it.
 
 This pairs with **improved workspace resolution**: agents can resolve a workspace by project name (for example, "run this in the vscode workspace") in addition to absolute paths, which simplifies prompts that hand off work across multiple repositories.
+
+## Multi-folder sessions and remote delegation in VS Code (v1.140+)
+
+**Multi-folder sessions (Experimental)** let a single agent session coordinate related work across multiple repositories or isolated worktrees. Previously, every chat in a multi-chat session shared the same folder and checkout; now each chat can use its own folder or worktree without changes leaking between chats. This supports two patterns:
+
+- **Cross-repository coordination**: Ask the main chat to create a peer chat that works in a different repository, so a change in one project (e.g., an API field) can be verified against its consumer in another.
+- **Compare approaches in separate worktrees**: Ask the main chat to create peer chats that each use a fresh worktree of the same repository, so you can compare multiple implementation attempts side by side, each with its own branch and pull request.
+
+This feature is off by default. Enable it per-harness in your user `settings.json` (for example `chat.agentHost.copilotAgent.multiRootEnabled`).
+
+**Delegate tasks to remote agent hosts (Experimental)**: Your agent can delegate work to connected [remote agent hosts](https://code.visualstudio.com/docs/agents/run/remote-agent-sessions) directly from the Agents window, without you manually selecting a host in a picker for each task. New built-in tools let the agent discover hosts, models, and capacity (`list_agent_hosts`), start a remote session with automatic placement (`create_remote_session`), check status (`get_remote_session`), and send follow-up messages (`send_remote_message`). These tools are off by default and require `chat.remoteAgentHostsEnabled` plus `chat.remoteSessions.tools.enabled`. Keep the coordinating Agents window open for messages to flow — remote agents report back, but their final answers are not automatically forwarded if you close the window.
 
 ## Common questions
 
