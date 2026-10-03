@@ -3,7 +3,7 @@ title: 'GitHub Copilot Terminology Glossary'
 description: 'A quick reference guide defining common GitHub Copilot and platform-specific terms.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-07
+lastUpdated: 2026-10-03
 estimatedReadingTime: '8 minutes'
 tags:
   - glossary
@@ -281,13 +281,25 @@ tools: ['codebase', 'terminalCommand', 'github']
 
 ### Agent Host
 
-A VS Code component (v1.136+) that lets multiple VS Code windows connect to the same agent session. It runs agent harnesses (such as Copilot or Claude) in a dedicated process built on the open **Agent Host Protocol (AHP)**. The agent host's Copilot harness is powered by the [Copilot SDK](https://www.npmjs.com/package/@github/copilot-sdk), which keeps its behavior aligned with the Copilot CLI, the standalone GitHub Copilot app, and other Copilot products.
+A VS Code component (v1.136+) that lets multiple VS Code windows connect to the same agent session. It runs agent harnesses (such as Copilot or Claude) in a dedicated process built on the open **Agent Host Protocol (AHP)**. The agent host's Copilot harness is powered by the [Copilot SDK](https://www.npmjs.com/package/@github/copilot-sdk), which keeps its behavior aligned with the Copilot CLI, the standalone GitHub Copilot app, and other Copilot products. As of VS Code 1.140, the **Copilot harness** (selectable from the harness picker in the chat input, and the default for many users) runs this way, and the Agents window can delegate tasks directly to **remote agent hosts** you've connected, discovering hosts/models/capacity and starting or checking sessions without manually picking a host each time.
 
 **Example**: Starting a session in one VS Code window, then reconnecting to the same live session from a second window without losing state.
 
 **When to use**: When you want a consistent agent session shared across multiple editor windows, or when you want the same underlying agent behavior across VS Code, the CLI, and the Copilot app.
 
 **Related terms**: [Agent](#agent), [Coding Agent](#coding-agent)
+
+---
+
+### HydraFusion
+
+An adaptive model orchestration system (Research Preview, VS Code 1.140+) that automatically chooses the models and workflow for each coding task instead of using a single fixed model. HydraFusion can solve a task with one model, escalate to a stronger model when needed, or have a second model critique and revise the first model's result — aiming to improve quality while balancing speed and cost.
+
+**Example**: Selecting HydraFusion in the model picker and letting it decide, per-request, whether a quick answer or a multi-model critique-and-revise pass is warranted.
+
+**When to use**: When you want higher-quality results on varied tasks without manually switching models based on difficulty.
+
+**Related terms**: [Agent Host](#agent-host)
 
 ---
 
