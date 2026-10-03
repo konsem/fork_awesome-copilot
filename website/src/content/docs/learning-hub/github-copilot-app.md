@@ -3,7 +3,7 @@ title: 'Getting Started with the GitHub Copilot app'
 description: 'Learn about the GitHub Copilot app, a desktop experience built for agent-native development. Understand its key features and who it''s for.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-02
+lastUpdated: 2026-10-03
 estimatedReadingTime: '8 minutes'
 tags:
   - copilot-app
@@ -108,6 +108,14 @@ Agent Merge also understands **stacked pull requests**: it shows a stack summary
 ### Requesting Code Reviews
 
 From the app, you can request a Copilot code review on a pull request—and re-request a review even from reviewers who already responded—without leaving the session. This keeps the review loop inside the same workspace where the change was made.
+
+### Child Chats and Retrying Agent Responses
+
+**Child chats** *(v1.1.26+)*: Any chat can spawn a **child chat** that appears nested beneath its parent in the sidebar, with its own transcript, notifications, and plan review. This is useful for branching off a tangential question or sub-task without losing the context of (or cluttering) the parent conversation.
+
+**Retry with a different model** *(v1.1.24+)*: If an agent's response isn't quite right, use the **Retry** action to resend the same request with a different model, reasoning effort, or context tier—without having to retype the prompt. This makes it fast to compare how different models handle the same task.
+
+**Reply inside inline PR review threads** *(v1.1.24+)*: The agent can now reply inside an existing inline pull request review thread without resolving it, so follow-up discussion on a specific comment stays attached to that thread instead of starting a new one.
 
 ## Who is the Copilot app for?
 
