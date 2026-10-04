@@ -3,7 +3,7 @@ title: 'Getting Started with the GitHub Copilot app'
 description: 'Learn about the GitHub Copilot app, a desktop experience built for agent-native development. Understand its key features and who it''s for.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-02
+lastUpdated: 2026-10-04
 estimatedReadingTime: '8 minutes'
 tags:
   - copilot-app
@@ -108,6 +108,22 @@ Agent Merge also understands **stacked pull requests**: it shows a stack summary
 ### Requesting Code Reviews
 
 From the app, you can request a Copilot code review on a pull request—and re-request a review even from reviewers who already responded—without leaving the session. This keeps the review loop inside the same workspace where the change was made.
+
+### Child Chats and Nested Agent Work
+
+*(v1.1.26+)* Chats can now start **child chats**, nested beneath their parent in the sidebar with their own transcript, notifications, and plan review. This makes it easier to branch off a focused sub-task from an existing conversation without losing the parent's context, and to track the sub-task's progress separately. You can start a new session from a child chat, and reply between parent and child agents flows promptly instead of waiting for the current task to finish.
+
+### Running Code Snippets from the Terminal
+
+*(v1.1.26+)* You can run Bash and PowerShell code snippets shown in a conversation directly in the session's terminal, reusing an existing shell when one is available. This removes a copy-paste step when an agent suggests a command you want to try immediately.
+
+### Dragging Files into a Session
+
+*(v1.1.26+)* Drag and drop files from your computer onto a session or an Agent row in the sidebar to attach them to that session's composer, instead of using the attach-file picker.
+
+### Dynamic Workflows (formerly Agent Factories)
+
+*(v1.1.24+)* **Agent Factories** has been renamed to **Dynamic Workflows**, while preserving existing workflow runs and transcripts. This is the same scheduled, template-driven automation capability described in [Using Automations in the Copilot App](../using-automations-in-copilot-app/) — only the name in the UI has changed.
 
 ## Who is the Copilot app for?
 
