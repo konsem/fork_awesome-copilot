@@ -3,7 +3,7 @@ title: 'GitHub Copilot Terminology Glossary'
 description: 'A quick reference guide defining common GitHub Copilot and platform-specific terms.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-07
+lastUpdated: 2026-10-05
 estimatedReadingTime: '8 minutes'
 tags:
   - glossary
@@ -287,7 +287,19 @@ A VS Code component (v1.136+) that lets multiple VS Code windows connect to the 
 
 **When to use**: When you want a consistent agent session shared across multiple editor windows, or when you want the same underlying agent behavior across VS Code, the CLI, and the Copilot app.
 
-**Related terms**: [Agent](#agent), [Coding Agent](#coding-agent)
+**Related terms**: [Agent](#agent), [Coding Agent](#coding-agent), [Copilot Harness](#copilot-harness)
+
+---
+
+### Copilot Harness
+
+The specific agent harness VS Code uses to run Copilot inside the Agent Host (v1.140+). Select it from the harness picker in the chat input to get agent behavior consistent with the standalone GitHub Copilot app and the Copilot CLI, since all three are powered by the same Copilot SDK. VS Code also supports other harnesses (such as Claude or Codex) side-by-side in the same picker.
+
+**Example**: Switching the harness picker to **Copilot** so a VS Code chat session behaves the same way as a Copilot CLI session, including shared slash commands and tool behavior.
+
+**When to use**: When you want VS Code chat to match Copilot CLI/app behavior exactly, or when comparing how different agent harnesses handle the same task.
+
+**Related terms**: [Agent Host](#agent-host), [Agent](#agent)
 
 ---
 

@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-07
+lastUpdated: 2026-10-05
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -431,8 +431,15 @@ CLI settings use **camelCase** naming. Key settings added in recent releases:
 | `stayInAutopilot` | Keep the CLI in autopilot mode after an autopilot task completes, instead of returning to interactive mode (v1.0.69+) |
 | `defaultMode` | Startup mode for new interactive sessions (e.g., `interactive`, `autopilot`, `plan`) (v1.0.81+) |
 | `defaultPermissionMode` | Default approval behaviour for new interactive sessions, independent from `defaultMode` (v1.0.81+) |
+| `editorMode` | Set to `vim` to enable modal (Vim-style) editing in the composer (v1.0.85+) |
 
 > **Note**: Older snake_case names (e.g., `include_gitignored`, `auto_updates_channel`) are still accepted for backward compatibility, but camelCase is now the preferred format.
+
+**Vim mode** *(v1.0.85+)*: Modal editing is available to everyone in the CLI composer. Turn it on with `/vim`, or persist the preference by setting `editorMode` to `vim` in your config. The current mode (insert/normal) is shown while you type, just like a terminal `vim` session.
+
+**`copilot config` subcommands** *(v1.0.92+)*: In addition to the interactive `/settings` and `/config` dialogs, you can manage settings directly from the shell with `copilot config list`, `copilot config get <key>`, `copilot config set <key> <value>`, and `copilot config remove <key>` — useful for scripting configuration changes in dotfiles or CI setup steps without opening an interactive session.
+
+**`/config` sidebar** *(v1.0.85+)*: The `/config` command opens a sidebar configuration screen inside the CLI, complementing the full-screen `/settings` dialog with a lighter-weight view for quick adjustments.
 
 > **Session restore after a crash (v1.0.81+)**: If the CLI is interrupted unexpectedly — a crash or a machine restart — startup now offers to restore any sessions that were still open, so you don't have to reopen each terminal by hand.
 
@@ -446,6 +453,8 @@ In addition to the main config file, GitHub Copilot CLI reads two optional per-p
 These files follow the same format as `config.json` and are loaded after the global config, so they can tailor CLI behaviour—including hook definitions—per repository without touching `.github/`.
 
 > **Important (v1.0.36+)**: Custom agents, skills, and commands placed in `~/.claude/` (the Claude Code user directory) are **no longer loaded** by GitHub Copilot CLI. Only `~/.claude/settings.json` is read for configuration. If you previously stored personal agents or skills in `~/.claude/`, move them to the supported locations: `~/.copilot/agents/` for user-level agents, `~/.copilot/skills/` or `~/.agents/skills/` for personal skills, or `.github/agents/` and `.github/skills/` in your repositories for project-level customizations.
+
+**Claude Code rule files** *(v1.0.89+)*: GitHub Copilot CLI now reads rule files in `.claude/rules/` and applies them as custom instructions, alongside `AGENTS.md` and `copilot-instructions.md`. This makes it easier to share one set of project conventions across GitHub Copilot CLI and Claude Code without duplicating instruction files.
 
 ### Model Picker
 
@@ -846,6 +855,16 @@ These flags apply only to the current invocation — your persisted sandbox pref
 **`worktreeBaseRef` setting** *(v1.0.79-8+)*: Controls whether `/worktree`, `/worktree new`, and the `--worktree` startup flag create the new worktree from `HEAD` or from the remote default branch. All three now default to `HEAD`; previously `--worktree` defaulted to starting from the remote default branch. Set this in `/settings` if you want worktrees to branch from the remote default instead.
 
 > **Breaking change — sandbox network isolation (v1.0.83+)**: On macOS and Linux, sandboxed commands can no longer reach services running on your own machine, including a server the sandboxed command itself starts on `127.0.0.1`. This means test suites that bind a local port will fail inside the sandbox. Turn on **Allow local network** in `/sandbox` to restore access to localhost. On Linux, sandboxing also now requires `slirp4netns`, `nsenter`, `iptables`, `ip6tables`, `iptables-restore`, and `ip6tables-restore` on `PATH` — install these if sandboxed commands start failing to launch. Additionally, Linux sandboxes now restrict network egress to the configured HTTP(S) proxy when one is set; this proxy mode requires `slirp4netns`, `util-linux` 2.35+, `iptables`, and `/dev/net/tun` access.
+
+**`copilot sandbox ca` commands** *(v1.0.91+)*: When the sandbox network proxy is enabled, sandboxed commands route HTTPS traffic through a local certificate authority. Use `copilot sandbox ca check`, `create`, `trust`, `rotate`, and `remove` to manage that CA's trust, including unattended setup on Windows. The former `/sandbox ca install` step is now split into separate `create` and `trust` steps for clearer control over each stage.
+
+**Scoping MCP server auth to GitHub** *(v1.0.90+)*: The `--mcp-github-auth` flag restricts which MCP server origins are allowed to use your signed-in GitHub account for authentication, rather than sharing it with every configured MCP server by default:
+
+```bash
+copilot --mcp-github-auth "https://api.githubcopilot.com/mcp/*"
+```
+
+This is useful when you have multiple MCP servers configured but only want your GitHub credentials shared with specific, trusted origins.
 
 The `--attachment` flag (available in prompt mode, `-p`) lets you attach files — images or native documents — to the initial prompt in non-interactive mode:
 
