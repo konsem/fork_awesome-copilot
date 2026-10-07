@@ -3,7 +3,7 @@ title: 'Getting Started with the GitHub Copilot app'
 description: 'Learn about the GitHub Copilot app, a desktop experience built for agent-native development. Understand its key features and who it''s for.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-02
+lastUpdated: 2026-10-06
 estimatedReadingTime: '8 minutes'
 tags:
   - copilot-app
@@ -71,6 +71,14 @@ This makes it easy to dispatch multiple agents and trust they won't interfere wi
 ### Running in the Background
 
 Closing the app's main window keeps it running in the background instead of quitting, with tray (Windows/Linux) or Dock (macOS) support to bring it back. This means scheduled automations and in-progress sessions keep running even when the window isn't open.
+
+### Local Sandbox for Agent Shell Commands
+
+*(v1.1.23+)* A project setting and `/sandbox` command let you run the agent's shell commands in a local sandbox restricted to the session's workspace, limiting filesystem access to files within that session. This gives you an extra layer of isolation for sessions running on your own machine, similar to the sandboxing already available in Copilot CLI.
+
+### Dynamic Workflows
+
+*(v1.1.24+, renamed from Agent Factories)* **Dynamic Workflows** let you define a scheduled or triggered workflow that spins up agents to work on a recurring task — existing workflow runs and transcripts carried over under the new name. Workflows are visible from the Automations view, where the overview and run list are combined into a single page with a breadcrumb when viewing an individual workflow (v1.1.24+).
 
 ### Canvases
 
