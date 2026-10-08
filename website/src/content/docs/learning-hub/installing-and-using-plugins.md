@@ -3,7 +3,7 @@ title: 'Installing and Using Plugins'
 description: 'Learn how to find, install, and manage plugins that extend GitHub Copilot CLI with reusable agents, skills, hooks, and integrations.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-01
+lastUpdated: 2026-10-07
 relatedArticles:
   - ./building-custom-agents.md
   - ./creating-effective-skills.md
@@ -241,6 +241,8 @@ copilot plugin uninstall my-plugin
 
 > **Breaking change (v1.0.81+)**: The `/plugins` command has been **removed**. Its functionality moved to dedicated commands: `/plugin` (plugin dashboard), `/mcp` (MCP servers), and `/skills` (skills), with `/subagents` for custom agents and `/instructions` for instructions.
 
+> **Command renames for non-interactive use (v1.0.85+)**: `copilot plugins list --kind instruction` and `--kind lsp` have been replaced by dedicated `copilot instruction list` and `copilot lsp list` commands. Similarly, `copilot plugins enable/disable --plugin|--mcp|--skill` is replaced by `enable`/`disable` subcommands on the relevant command group: `copilot plugin enable`, `copilot mcp enable`, and `copilot skill enable` (and their `disable` counterparts). All of these support `--json` output, as does `copilot plugin list` and `copilot plugin marketplace list`/`browse`.
+
 Run `/plugin` (or `copilot plugin list` in non-interactive mode) to see **enable/disable toggles** for individual plugin components. You can turn off specific agents, instructions, hooks, LSP servers, or entire plugins without uninstalling them:
 
 ```
@@ -264,6 +266,8 @@ copilot --plugin-dir /path/to/my-plugin
 ```
 
 Plugins loaded this way appear in `/plugin list` under a separate **External Plugins** section, clearly distinguished from marketplace-installed plugins. This is useful for testing local plugins in development or loading private plugins that aren't published to any marketplace.
+
+> **Direct installs can be disabled (v1.0.89+)**: A direct plugin install (one loaded via `--plugin-dir` or installed from a URL/path rather than a marketplace) can now be toggled with `copilot plugin enable`/`copilot plugin disable` just like marketplace plugins. A plugin recorded as disabled stops loading on the next session start; re-enable it with `copilot plugin enable <name>`.
 
 ### Where Plugins Are Stored
 

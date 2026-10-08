@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-07
+lastUpdated: 2026-10-07
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -406,7 +406,7 @@ Settings: File → Settings → Tools → GitHub Copilot
 
 ### GitHub Copilot CLI
 
-Configuration file: `~/.copilot-cli/config.json`
+Configuration file: `~/.copilot/settings.json` *(as of v1.0.85+; prior to that, user settings lived in `~/.copilot/config.json` alongside internal state)*. As of v1.0.93, user settings are read **only** from `~/.copilot/settings.json` — any user-setting keys left in `config.json` are ignored, so migrate manually if you still have settings in the older file.
 
 ```json
 {
@@ -438,6 +438,10 @@ CLI settings use **camelCase** naming. Key settings added in recent releases:
 
 > **Piping an auth token (v1.0.81+)**: Use `copilot login --with-token` to read an authentication token from stdin instead of going through the interactive browser or device-code flow — useful for scripted or containerized setups where a token is already available in the environment.
 
+**`copilot config` CLI subcommands** *(v1.0.92+)*: In addition to the interactive `/settings` dialog, you can now manage settings non-interactively from a shell or script with `copilot config list`, `copilot config get <key>`, `copilot config set <key> <value>`, and `copilot config remove <key>` — useful for provisioning a machine or CI image without opening an interactive session.
+
+> **Enterprise network allowlisting (v1.0.93+)**: Enterprise administrators can set `permissions.limitTo` in managed settings to restrict outbound network requests (including MCP server connections) to an approved list of domains, enforcing a managed boundary that users cannot override locally.
+
 In addition to the main config file, GitHub Copilot CLI reads two optional per-project files for repository-specific overrides:
 
 - `.claude/settings.json` — committed project settings
@@ -446,6 +450,12 @@ In addition to the main config file, GitHub Copilot CLI reads two optional per-p
 These files follow the same format as `config.json` and are loaded after the global config, so they can tailor CLI behaviour—including hook definitions—per repository without touching `.github/`.
 
 > **Important (v1.0.36+)**: Custom agents, skills, and commands placed in `~/.claude/` (the Claude Code user directory) are **no longer loaded** by GitHub Copilot CLI. Only `~/.claude/settings.json` is read for configuration. If you previously stored personal agents or skills in `~/.claude/`, move them to the supported locations: `~/.copilot/agents/` for user-level agents, `~/.copilot/skills/` or `~/.agents/skills/` for personal skills, or `.github/agents/` and `.github/skills/` in your repositories for project-level customizations.
+
+> **Claude Code rule files as custom instructions (v1.0.89+)**: GitHub Copilot CLI now also reads `.claude/rules/*` files and applies them as custom instructions, in addition to `AGENTS.md`, `copilot-instructions.md`, and `CLAUDE.md`. This makes it easier to share a single set of repository conventions across Claude Code and Copilot CLI.
+
+**Vim mode** *(v1.0.85+)*: Available to all users. Turn it on with `/vim`, or set `editorMode` to `vim` in your settings for modal (normal/insert) editing in the prompt composer. The current mode is shown while you type.
+
+**Pre-conversation environment picker** *(v1.0.92+)*: Press **Ctrl+E** before starting a conversation to open a picker that switches between running locally and running in a cloud environment, without needing a separate flag at startup.
 
 ### Model Picker
 
@@ -457,7 +467,7 @@ The model picker opens in a **full-screen view** with inline reasoning effort ad
 
 **Auto mode and server-side model routing** (v1.0.43+): When you select **Auto** as your model, the CLI uses server-side model routing for real-time model selection. Instead of locking in a single model at session start, Auto mode evaluates each request and routes it to the most appropriate model dynamically. This means straightforward questions can be handled by a faster model while complex reasoning tasks are automatically escalated — without you needing to switch models manually.
 
-**Model family aliases** (v1.0.64+): Instead of typing a full model name, you can use short family aliases in the model setting: `opus`, `sonnet`, `haiku` (Anthropic), and `gpt`, `gemini` (Google/OpenAI). The CLI resolves the alias to the latest available model in that family. This is especially useful in scripts or configuration files where you want to track the best model in a family without hardcoding a version string. Recent models available include **Claude Opus 5** (v1.0.75+), the latest in Anthropic's Opus family for the most demanding tasks, **Grok 4.5** (v1.0.76+) from xAI, **Gemini 3.7 Flash** (v1.0.81+), and **Claude Fable 5.1** (v1.0.83+). **Grok 4.6** (v1.0.81+) also gains support for the `xhigh` reasoning effort level, one step above `high`, for the most demanding reasoning tasks. The `/model picker` also periodically retires older models no longer worth recommending — a recent cleanup removed several deprecated Claude and Gemini entries (v1.0.83+), so don't be surprised if a model you previously pinned disappears from the list.
+**Model family aliases** (v1.0.64+): Instead of typing a full model name, you can use short family aliases in the model setting: `opus`, `sonnet`, `haiku` (Anthropic), and `gpt`, `gemini` (Google/OpenAI). The CLI resolves the alias to the latest available model in that family. This is especially useful in scripts or configuration files where you want to track the best model in a family without hardcoding a version string. Recent models available include **Claude Opus 5** (v1.0.75+), the latest in Anthropic's Opus family for the most demanding tasks, **Grok 4.5** (v1.0.76+) from xAI, **Gemini 3.7 Flash** (v1.0.81+), and **Claude Fable 5.1** (v1.0.83+). **Grok 4.6** (v1.0.81+) also gains support for the `xhigh` reasoning effort level, one step above `high`, for the most demanding reasoning tasks. The `/model picker` also periodically retires older models no longer worth recommending — a recent cleanup removed several deprecated Claude and Gemini entries (v1.0.83+), so don't be surprised if a model you previously pinned disappears from the list. More recently, **GPT-6 Sol/Astra/Luna** and **Claude 5.5** family models (v1.0.89+–v1.0.93+) have joined the recommended list, with the picker periodically reprioritizing which of these appear at the top as new entries become available.
 
 **Model fallback lists** *(v1.0.83+)*: Custom agents can set `model` to a list of several models instead of a single name. Copilot tries each one in order until it finds one available to your account — useful when your preferred model is temporarily rate-limited or not enrolled. Pair this with `model-policy: required` to keep the agent restricted to that list even if you try to switch models mid-session. See [Building Custom Agents](../building-custom-agents/) for the frontmatter syntax.
 
@@ -827,6 +837,8 @@ copilot --autopilot --max-autopilot-continues 10 "Refactor the authentication mo
 ```
 
 Set it higher for long-running tasks, or lower for tasks where you want more frequent checkpoints. Setting it to `0` disables automatic continuation entirely.
+
+> **Sandbox generally available (v1.0.93+)**: Command sandboxing — previously a progressive rollout — is now available to all users via `/sandbox` and `--sandbox`. It isolates shell commands at the OS level (filesystem and network restrictions) so the agent can run builds, tests, and scripts with reduced risk to the rest of your machine.
 
 The `--sandbox` and `--no-sandbox` flags *(v1.0.70+)* turn the OS-level shell sandbox on or off for the current session only, without permanently changing your saved sandbox setting. This is useful with `-p` (prompt mode) when you need to temporarily adjust sandbox behavior for a specific automated task:
 

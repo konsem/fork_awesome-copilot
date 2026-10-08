@@ -3,7 +3,7 @@ title: 'Getting Started with the GitHub Copilot app'
 description: 'Learn about the GitHub Copilot app, a desktop experience built for agent-native development. Understand its key features and who it''s for.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-02
+lastUpdated: 2026-10-07
 estimatedReadingTime: '8 minutes'
 tags:
   - copilot-app
@@ -68,6 +68,14 @@ Each session the Copilot app creates runs in its own **git worktree**—a real, 
 
 This makes it easy to dispatch multiple agents and trust they won't interfere with each other.
 
+### Child Chats and Nested Sessions
+
+**Child chats** *(v1.1.26+)* let a conversation start its own child chat, nested beneath the parent in the sidebar with its own transcript, notifications, and plan review. This is useful for spinning off a focused sub-task — like investigating a specific failing test or drafting a smaller piece of a larger feature — without losing the context of the parent conversation.
+
+Building on this, **coordinator agents** *(v1.1.27+)* can supervise multiple child sessions at once, and if a coordinator session is interrupted, you can resume it — along with its child sessions — directly from the sidebar without leaving your current conversation.
+
+> **Cloud sessions deprecated (v1.1.27+)**: The option to create new Cloud sessions and Cloud automations has been removed from the app. Existing Cloud sessions and automations can still be resumed, viewed, and edited, but new work should use local or remote-machine sessions instead.
+
 ### Running in the Background
 
 Closing the app's main window keeps it running in the background instead of quitting, with tray (Windows/Linux) or Dock (macOS) support to bring it back. This means scheduled automations and in-progress sessions keep running even when the window isn't open.
@@ -81,6 +89,10 @@ Closing the app's main window keeps it running in the background instead of quit
 - This makes it easy to see exactly what an agent is doing and step in when needed
 
 For a hands-on guide to building canvases with `/create-canvas`, see [Working with Canvas Extensions](../working-with-canvas-extensions/).
+
+### Dynamic Workflows
+
+**Dynamic Workflows** *(renamed from Agent Factories in v1.1.24)* let you run multiple passes over a task — for example, trying several models or approaches in parallel and comparing the results — while preserving existing workflow runs and transcripts from before the rename. When using HydraFusion-style multi-pass runs, the conversation shows which workflow was chosen and a row for each pass with its role, model, and duration, making it easy to compare outcomes before picking one.
 
 ### Customize
 
