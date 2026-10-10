@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-07
+lastUpdated: 2026-10-10
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -846,6 +846,15 @@ These flags apply only to the current invocation — your persisted sandbox pref
 **`worktreeBaseRef` setting** *(v1.0.79-8+)*: Controls whether `/worktree`, `/worktree new`, and the `--worktree` startup flag create the new worktree from `HEAD` or from the remote default branch. All three now default to `HEAD`; previously `--worktree` defaulted to starting from the remote default branch. Set this in `/settings` if you want worktrees to branch from the remote default instead.
 
 > **Breaking change — sandbox network isolation (v1.0.83+)**: On macOS and Linux, sandboxed commands can no longer reach services running on your own machine, including a server the sandboxed command itself starts on `127.0.0.1`. This means test suites that bind a local port will fail inside the sandbox. Turn on **Allow local network** in `/sandbox` to restore access to localhost. On Linux, sandboxing also now requires `slirp4netns`, `nsenter`, `iptables`, `ip6tables`, `iptables-restore`, and `ip6tables-restore` on `PATH` — install these if sandboxed commands start failing to launch. Additionally, Linux sandboxes now restrict network egress to the configured HTTP(S) proxy when one is set; this proxy mode requires `slirp4netns`, `util-linux` 2.35+, `iptables`, and `/dev/net/tun` access.
+
+**Sandbox availability and settings updates** *(v1.0.92–v1.0.95)*: Command sandboxing is now available to all users through `/sandbox` and `--sandbox` *(v1.0.93+)*. Related changes:
+
+- **`copilot config` subcommands** *(v1.0.92+)*: List, read, set, and remove settings from the command line instead of editing JSON by hand. Version 1.0.95 adds shell completion for sandbox credential `injectHosts` keys in Bash, Zsh, and Fish.
+- **User settings location** *(v1.0.93+, breaking change)*: User settings are read only from `~/.copilot/settings.json`. User-setting keys left in `~/.copilot/config.json` are ignored, so move them over.
+- **Sandboxed shells and tokens** *(v1.0.92+)*: Sandboxed shells withhold the ambient `GITHUB_TOKEN` unless you explicitly configure it.
+- **Enterprise controls** *(v1.0.93+)*: Administrators can enforce managed domain boundaries for network requests with `permissions.limitTo`. Managed policy can also disable Assisted Permissions and keep sessions in Manual Approval mode *(v1.0.94+)*.
+- **Environment picker** *(v1.0.92+)*: Press `Ctrl+E` before starting a conversation to switch between local and cloud runs.
+- **Models** *(v1.0.93–v1.0.94)*: The model picker now recommends GPT-6.1 Sol, GPT-6 Astra/Luna, and Claude 5.5 models, and Claude Haiku 5.5 was added to model selection and `--model` completions.
 
 The `--attachment` flag (available in prompt mode, `-p`) lets you attach files — images or native documents — to the initial prompt in non-interactive mode:
 
