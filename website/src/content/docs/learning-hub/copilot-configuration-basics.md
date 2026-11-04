@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-07
+lastUpdated: 2026-11-04
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -470,6 +470,10 @@ The model picker opens in a **full-screen view** with inline reasoning effort ad
 ```
 
 When you leave plan mode, the CLI automatically reverts to your session model. This pairing works well with repository model pinning — you can enforce a high-quality model for implementation while allowing a lighter model during exploration and planning.
+
+**Copilot Fusion** *(v1.0.104+)*: The managed `fusion` model starts sessions on Auto and applies your `fusionTier` setting. You can pick Fusion **High** or **Max** in `/model`, including from long-context sessions (v1.0.105+).
+
+**Assisted Permissions** *(v1.0.104+)*: Assisted Permissions no longer require experimental mode. Use the `assistedApprovalInstructions` setting (v1.0.101+) to guide how confirmation decisions are made. Treat it as a convenience, not a sandbox — keep least-privilege habits and avoid broad `--yolo` use outside isolated environments.
 
 ### CLI Session Commands
 
