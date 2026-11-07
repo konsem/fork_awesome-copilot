@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-09-07
+lastUpdated: 2026-11-07
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -481,6 +481,10 @@ The `/settings` command (v1.0.61+) opens an interactive dialog to browse and edi
 
 The settings dialog supports search — type to filter settings by name. Changes take effect immediately.
 
+*(v1.0.107+)* `/settings` opens a unified dashboard for all users, with global search across both settings and local resources. The `copilot config` command also gains a Fusion tier setting, and a **Sandbox extensions** setting runs extension processes inside the sandbox.
+
+*(v1.0.107+)* The `/code` command opens the current session in VS Code.
+
 *(v1.0.70+)* The `/settings` command and the `/model` command both support **`--repo` and `--local` flags** for explicitly scoping which layer of settings you want to view or edit:
 
 ```
@@ -879,6 +883,8 @@ copilot --config-dir ~/.my-copilot-config
 ```
 
 Set `COPILOT_HOME` in your shell profile to use a custom config directory across all sessions. This is especially useful when running multiple Copilot configurations for different projects or teams.
+
+*(v1.0.107+)* `COPILOT_SESSION_CWD` is available for launching and expanding LSP and local MCP server configurations relative to the session's working directory.
 
 ### Shell Completion
 
